@@ -1,0 +1,309 @@
+let catchHistory = [];
+
+function loadCatchLog() {
+  const saved = localStorage.getItem('caughtFishList');
+  if (saved) {
+    catchHistory = JSON.parse(saved);
+  }
+}
+
+function saveCatchLog() {
+  localStorage.setItem('caughtFishList', JSON.stringify(catchHistory));
+}
+
+loadCatchLog();
+
+const fishPool = [
+  { name: 'Bluegill',   rarity: 'common',    weightRange: [0.1, 0.9] },
+  { name: 'Trout',      rarity: 'common',    weightRange: [0.5, 2.0] },
+  { name: 'Bass',       rarity: 'common',    weightRange: [0.8, 3.0] },
+  { name: 'Y. Perch',   rarity: 'common',    weightRange: [1.1, 1.9] },
+  { name: 'Roach',      rarity: 'common',    weightRange: [0.05, 1.0] },
+  { name: 'Crappie',    rarity: 'common',    weightRange: [0.11, 1.5] },
+  { name: 'Catfish',    rarity: 'uncommon',  weightRange: [1.0, 5.0] },
+  { name: 'Salmon',     rarity: 'uncommon',  weightRange: [2.0, 6.0] },
+  { name: 'Carp',       rarity: 'uncommon',  weightRange: [2.0, 14.0] },
+  { name: 'Panfish',    rarity: 'uncommon',  weightRange: [0.15, 0.22] },
+  { name: 'B. Tilapia', rarity: 'uncommon',  weightRange: [2.3, 2.7] },
+  { name: 'L. Bass',    rarity: 'rare',      weightRange: [0.5, 10.0] },
+  { name: 'Pike',       rarity: 'rare',      weightRange: [2.3, 4.5] },
+  { name: 'Goldfish',   rarity: 'rare',      weightRange: [0.1, 0.5] },
+  { name: 'Koi',        rarity: 'legendary', weightRange: [7.0, 14.0] },
+  { name: 'Shark',      rarity: 'legendary', weightRange: [8.0, 25.0] }
+];
+
+const baitConfigs = {
+  Worm: {
+    minWait: 5, maxWait: 15,
+    rarityWeights: { common: 90, uncommon: 10, rare: 1, legendary: 100 }
+  },
+  Shrimp: {
+    minWait: 10, maxWait: 25,
+    rarityWeights: { common: 30, uncommon: 50, rare: 10, legendary: 2 }
+  },
+  Jig: {
+    minWait: 20, maxWait: 50,
+    rarityWeights: { common: 45, uncommon: 30, rare: 50, legendary: 5 }
+  }
+};
+
+const raritySettings = {
+  common:    { buttons: 5, time: 3500 },
+  uncommon:  { buttons: 7, time: 5000 },
+  rare:      { buttons: 10, time: 6000 },
+  legendary: { buttons: 25, time: 8000 }
+};
+
+const precisionSettings = {
+  requiredHits: 3,
+  totalTime: 10000,
+  sliderSpeed: 2000
+};
+
+let selectedBait = 'Worm';
+let currentFish = null;
+let isCasting = false;
+
+function updateBait() {
+  selectedBait = document.getElementById('baitSelect').value;
+}
+
+function castLine() {
+  if (isCasting) return logText('Already clicked button.');
+  isCasting = true;
+  document.getElementById('summary').style.display = 'none';
+  document.getElementById('baitSelect').disabled = true;
+  logText('Casting your line...');
+  clearShakeArea();
+  setTimeout(startWaiting, 2000);
+}
+
+function startWaiting() {
+  const cfg = baitConfigs[selectedBait];
+  logText('Waiting for bite...');
+  let waitMs = randomRange(cfg.minWait, cfg.maxWait) * 1000;
+
+  if (selectedBait === 'Jig') {
+    startJigMechanic(waitMs);
+  } else {
+    setTimeout(onBite, waitMs);
+  }
+}
+
+let jigTimer, shakeSpawner, remainingMs;
+function startJigMechanic(initialMs) {
+  clearInterval(jigTimer);
+  clearInterval(shakeSpawner);
+  remainingMs = initialMs;
+  jigTimer = setInterval(() => {
+    remainingMs -= 200;
+    if (remainingMs <= 0) {
+      clearInterval(jigTimer);
+      clearInterval(shakeSpawner);
+      clearShakeArea();
+      onBite();
+    }
+  }, 200);
+  spawnShake();
+  shakeSpawner = setInterval(spawnShake, randomRange(1, 3) * 1000);
+}
+
+function spawnShake() {
+  const area = document.getElementById('shakeArea');
+  const btn = document.createElement('button');
+  btn.className = 'action-btn shake-btn';
+  btn.textContent = 'Shake';
+  btn.style.position = 'absolute';
+  btn.style.top = `${randomRange(10, 80)}%`;
+  btn.style.left = `${randomRange(10, 80)}%`;
+  btn.onclick = () => {
+    remainingMs = Math.max(0, remainingMs - 4000);
+    btn.style.opacity = '0';
+    btn.textContent = '- 4s!';
+    setTimeout(() => btn.remove(), 300);
+  };
+  area.appendChild(btn);
+  setTimeout(() => { if (btn.parentNode) btn.remove(); }, 3000);
+}
+
+function clearShakeArea() {
+  document.getElementById('shakeArea').innerHTML = '';
+}
+
+function onBite() {
+  currentFish = getRandomFish();
+  logText(`A fish is on the hook! Reel it in!`);
+  startReelChallenge();
+  isCasting = false;
+}
+
+function getRandomFish() {
+  const weights = baitConfigs[selectedBait].rarityWeights;
+  const pool = fishPool.flatMap(fish => {
+    const weight = weights[fish.rarity] || 0;
+    return Array(weight).fill(fish);
+  });
+  const pickFrom = pool.length > 0 ? pool : fishPool;
+  const pick = pickFrom[Math.floor(Math.random() * pickFrom.length)];
+  const [minW, maxW] = pick.weightRange;
+  const weight = (Math.random() * (maxW - minW) + minW).toFixed(2);
+  return { ...pick, weight };
+}
+
+let reelInterval;
+function startReelChallenge() {
+  const reelDiv = document.getElementById('reelChallenge');
+  const timerBar = document.getElementById('timerBar');
+  const timerFill = document.getElementById('timerFill');
+
+  const { buttons, time } = raritySettings[currentFish.rarity];
+  let buttonsLeft = buttons;
+  let timeLeft = time;
+
+  reelDiv.innerHTML = '';
+  reelDiv.style.display = 'block';
+  timerBar.style.display = 'block';
+  timerFill.style.width = '100%';
+
+  for (let i = 0; i < buttons; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'action-btn reel-btn';
+    btn.textContent = 'Reel!';
+    btn.style.top = `${randomRange(10, 80)}%`;
+    btn.style.left = `${randomRange(10, 80)}%`;
+    btn.onclick = () => {
+      btn.remove();
+      buttonsLeft--;
+      if (buttonsLeft === 0) successReel();
+    };
+    reelDiv.appendChild(btn);
+  }
+
+  reelInterval = setInterval(() => {
+    timeLeft -= 100;
+    timerFill.style.width = `${(timeLeft / time) * 100}%`;
+    if (timeLeft <= 0) {
+      clearInterval(reelInterval);
+      if (buttonsLeft > 0) failReel();
+    }
+  }, 100);
+}
+
+function successReel() {
+  clearInterval(reelInterval);
+  catchHistory.push({ ...currentFish, bait: selectedBait });
+  logCatch(currentFish);
+  cleanupChallenge();
+  saveCatchLog();
+}
+
+function failReel() {
+  clearInterval(reelInterval);
+  logText('The fish got away!');
+  cleanupChallenge();
+}
+
+function cleanupChallenge() {
+  document.getElementById('reelChallenge').style.display = 'none';
+  document.getElementById('timerBar').style.display = 'none';
+  document.getElementById('baitSelect').disabled = false;
+  currentFish = null;
+}
+
+function logText(msg) {
+  const log = document.getElementById('log');
+  log.innerHTML = `<p>${msg}</p>`;
+}
+
+function logCatch(fish) {
+  const log = document.getElementById('log');
+  const entry = document.createElement('p');
+  entry.textContent = `🎉 You caught a [${fish.rarity}] ${fish.name} weighing ${fish.weight} kg!`;
+  log.appendChild(entry);
+}
+
+function showSummary() {
+  const summaryDiv = document.getElementById('summary');
+  if (summaryDiv.style.display === 'block') {
+    summaryDiv.style.display = 'none';
+    return;
+  }
+  summaryDiv.innerHTML = '<h3>Your Catch Summary</h3>';
+
+  if (catchHistory.length === 0) {
+    summaryDiv.innerHTML += '<p>You haven’t caught any fish yet!</p>';
+    summaryDiv.style.display = 'block';
+    return;
+  }
+
+  const stats = catchHistory.reduce((acc, f) => {
+    if (!acc[f.name]) acc[f.name] = { count: 0, total: 0, baits: {} };
+    acc[f.name].count++;
+    acc[f.name].total += parseFloat(f.weight);
+    acc[f.name].baits[f.bait] = (acc[f.name].baits[f.bait] || 0) + 1;
+    return acc;
+  }, {});
+
+  Object.entries(stats).forEach(([name, { count, total, baits }]) => {
+    const p = document.createElement('p');
+    const baitInfo = Object.entries(baits)
+      .map(([bait, amt]) => `${bait} x${amt}`)
+      .join(', ');
+    p.textContent = `${name}: ${count} caught (Total ${total.toFixed(2)} kg) — Baits: ${baitInfo}`;
+    summaryDiv.appendChild(p);
+  });
+
+  summaryDiv.style.display = 'block';
+}
+
+function randomRange(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+function jumpFish(fishId) {
+  const fish = document.getElementById(fishId);
+  const startX = Math.random() * 80 + 10;
+  fish.style.left = `${startX}%`;
+
+  fish.style.animation = 'none';
+  fish.offsetHeight;
+  fish.style.animation = 'jump 1s ease-out';
+  fish.style.opacity = '1';
+
+  fish.addEventListener('animationend', () => {
+    fish.style.animation = '';
+    fish.style.opacity = '0';
+    activeFish.delete(fishId);
+  }, { once: true });
+}
+
+const activeFish = new Set();
+
+function jumpRandomFish() {
+  const fishCount = 3;
+  let availableFish = [];
+
+  for (let i = 1; i <= fishCount; i++) {
+    if (!activeFish.has(`fish${i}`)) {
+      availableFish.push(`fish${i}`);
+    }
+  }
+
+  if (availableFish.length === 0) return;
+
+  const fishId = availableFish[Math.floor(Math.random() * availableFish.length)];
+  activeFish.add(fishId);
+  jumpFish(fishId);
+}
+
+function randomJumpLoop() {
+  const delay = Math.random() * 3000;
+  setTimeout(() => {
+    if (Math.random() < 0.8) {
+      jumpRandomFish();
+    }
+    randomJumpLoop(); // repeat
+  }, delay);
+}
+
+randomJumpLoop();
