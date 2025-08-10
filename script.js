@@ -13,6 +13,21 @@ function saveCatchLog() {
 
 loadCatchLog();
 
+const avatar = document.getElementById('avatar');
+const staticAvatar = 'https://avatars.githubusercontent.com/u/201024699?v=4';
+const animatedAvatar = 'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/profileik.gif';
+
+avatar.addEventListener('click', () => {
+  // Force reload by appending a unique query string
+  const timestamp = new Date().getTime();
+  avatar.src = `${animatedAvatar}?t=${timestamp}`;
+
+  // Reset to static after GIF duration
+  setTimeout(() => {
+    avatar.src = staticAvatar;
+  }, 2000); // GIF duration
+});
+
 const fishPool = [
   { name: 'Bluegill',   rarity: 'common',    weightRange: [0.1, 0.9] },
   { name: 'Trout',      rarity: 'common',    weightRange: [0.5, 2.0] },
