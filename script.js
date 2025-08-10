@@ -50,7 +50,7 @@ const fishPool = [
 const baitConfigs = {
   Worm: {
     minWait: 5, maxWait: 15,
-    rarityWeights: { common: 90, uncommon: 10, rare: 1, legendary: 100 }
+    rarityWeights: { common: 90, uncommon: 10, rare: 1, legendary: 1 }
   },
   Shrimp: {
     minWait: 10, maxWait: 25,
@@ -322,3 +322,4 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
