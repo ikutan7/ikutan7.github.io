@@ -1,0 +1,142 @@
+body { 
+  font-family: sans-serif; 
+  text-align: center; 
+  padding: 2em; 
+  background: #e0f7fa;
+  transition: background-color 1s ease, color 1s ease;
+}
+
+#log, #summary { 
+  margin: 1em auto; 
+  border: 1px solid #ccc; 
+  padding: 1em; 
+  background: #fff; 
+  width: 80%; 
+  max-width: 600px; 
+}
+
+button { 
+  padding: 0.5em 1em; 
+  background-color: #e0f7fa; 
+  margin: 0.5em; 
+  border-radius: 8px; 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover { 
+  transform: scale(1.1); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#reelChallenge button { 
+  position: absolute; 
+}
+
+#timerBar { 
+  width: 100%; 
+  height: 10px; 
+  background-color: gray; 
+  margin-top: 1em; 
+  display: none; 
+}
+
+#timerFill { 
+  height: 10px; 
+  width: 100%; 
+  background-color: green; 
+}
+
+#shakeArea button { 
+  transition: opacity 0.3s; 
+}
+
+#baitSelect {
+  background-color: #e0f7fa;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  appearance: none;
+}
+
+@keyframes waveMotion {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+#waveContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: -1;
+}
+
+#waveContainer svg {
+  display: block;
+  width: 200%;
+  height: 120px;
+  animation: waveMotion 7s linear infinite;
+}
+
+.fish {
+  display: block;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  font-size: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes jump {
+  0%   { transform: translate(0, 0) scaleX(1); opacity: 0; }
+  30%  { transform: translate(-60px, -100px) scaleX(1.2); opacity: 1; }
+  60%  { transform: translate(-120px, -50px) scaleX(0.8); }
+  100% { transform: translate(-180px, 0) scaleX(1); opacity: 0; }
+}
+
+.action-btn { 
+  background-color: #ffeb3b; 
+  color: #000; 
+  font-weight: bold; 
+  border: 2px solid #333; 
+  box-shadow: 0 0 10px rgba(255, 235, 59, 0.7); 
+  animation: pulse 1.5s infinite; 
+  z-index: 10; 
+}
+
+.reel-btn { 
+  background-color: #4caf50; 
+}
+
+.shake-btn { 
+  background-color: #f44336; 
+}
+
+@keyframes pulse { 
+  0% { transform: scale(1); } 
+  50% { transform: scale(1.05); } 
+  100% { transform: scale(1); } 
+}
+
+body.day {
+  background-color: #aee1f9;
+  color: #222;
+}
+
+body.night {
+  background-color: #1c1c3c;
+  color: #f0f0f0;
+}
+body.night #log,
+body.night #summary {
+  color: #222;
+}
+
+#clockDisplay {
+  font-size: 1.2em;
+}
