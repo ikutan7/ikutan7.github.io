@@ -27,13 +27,11 @@ avatar.addEventListener('click', () => {
     avatar.src = staticAvatar;
   }, 2000); // GIF duration
 });
+
 let gameTime = 360; // Start at 6:00 AM
 function getCurrentHour() {
   return Math.floor(gameTime / 60);
 }
-setInterval(() => {
-  gameTime = (gameTime + 10) % 1440;
-}, 10000); // 10s = 10 in-game minutes
 
 let isDay = true;
 
@@ -365,5 +363,6 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
 
 
