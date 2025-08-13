@@ -1,7 +1,10 @@
 # ikutan7.github.io
 *Fishing Game*
 
------------------
+----
+*Current version is bit unstable, some updates can erase your fishing data.*
+
+----
 
 I have a lot of ideas in mind, expect many updates.
  # To-do list:
