@@ -55,27 +55,33 @@ function updateTimeVisual(hour) {
 
 
 const fishPool = [
-  { name: 'Bluegill',   rarity: 'common',    weightRange: [0.1, 0.9],   activeWindows: [[4, 18]]          },
-  { name: 'Trout',      rarity: 'common',    weightRange: [0.5, 2.0],   activeWindows: [[5, 6], [19, 20]] },
-  { name: 'Bass',       rarity: 'common',    weightRange: [0.8, 3.0],   activeWindows: [[5, 6], [19, 20]] },
-  { name: 'Y. Perch',   rarity: 'common',    weightRange: [1.1, 1.9],   activeWindows: [[5, 6], [19, 20]] },
-  { name: 'Roach',      rarity: 'common',    weightRange: [0.05, 1.0],  activeWindows: [[4, 20]]          },
-  { name: 'Crappie',    rarity: 'common',    weightRange: [0.11, 1.5],  activeWindows: [[2, 20]]          },
-  { name: 'S. Bass',    rarity: 'common',    weightRange: [0.5, 2,5],   activeWindows: [[0, 24]]          },
-  { name: 'Walleye',    rarity: 'uncommon',  weightRange: [1.4, 3.2],   activeWindows: [[5, 6], [19, 23]] },
-  { name: 'Catfish',    rarity: 'uncommon',  weightRange: [1.0, 5.0],   activeWindows: [[0, 24]]          },
-  { name: 'Salmon',     rarity: 'uncommon',  weightRange: [2.0, 6.0],   activeWindows: [[5, 6], [19, 20]] },
-  { name: 'Carp',       rarity: 'uncommon',  weightRange: [2.0, 14.0],  activeWindows: [[19, 20], [1, 5]] },
-  { name: 'Panfish',    rarity: 'uncommon',  weightRange: [0.15, 0.22], activeWindows: [[5, 6], [19, 20]] },
-  { name: 'B. Tilapia', rarity: 'uncommon',  weightRange: [2.3, 2.7],   activeWindows: [[0, 24]]          },
-  { name: 'Snook',      rarity: 'uncommon',  weightRange: [1.5, 6.5],   activeWindows: [[5, 6], [19, 22]] },
-  { name: 'L. Bass',    rarity: 'rare',      weightRange: [0.5, 10.0],  activeWindows: [[3, 24]]          },
-  { name: 'Pike',       rarity: 'rare',      weightRange: [2.3, 4.5],   activeWindows: [[5, 6], [19, 20]] },
-  { name: 'Goldfish',   rarity: 'rare',      weightRange: [0.1, 0.5],   activeWindows: [[5, 19]]          },
-  { name: 'Eel',        rarity: 'rare',      weightRange: [0.1, 8.0],   activeWindows: [[19, 4]] },
-  { name: 'Muskie',     rarity: 'legendary', weightRange: [6.8, 16.0],  activeWindows: [[4, 5], [19, 24]] },
-  { name: 'Koi',        rarity: 'legendary', weightRange: [7.0, 14.0],  activeWindows: [[8, 22]]          },
-  { name: 'Shark',      rarity: 'legendary', weightRange: [8.0, 25.0],  activeWindows: [[5, 6], [19, 20]] }
+  { name: 'Bluegill',   rarity: 'common',    weightRange: [0.1,   0.9],   activeWindows: [[4, 18]]          },
+  { name: 'Trout',      rarity: 'common',    weightRange: [0.5,   2.0],   activeWindows: [[0, 6], [18, 23]] },
+  { name: 'R. Trout',   rarity: 'common',    weightRange: [0.5,   2.5],   activeWindows: [[0, 7], [18, 23]] },
+  { name: 'Bass',       rarity: 'common',    weightRange: [0.8,   3.0],   activeWindows: [[1, 6], [18, 23]] },
+  { name: 'Y. Perch',   rarity: 'common',    weightRange: [1.1,   1.9],   activeWindows: [[0, 6], [18, 22]] },
+  { name: 'Roach',      rarity: 'common',    weightRange: [0.05,  1.0],   activeWindows: [[0, 20]]          },
+  { name: 'Warmouth',   rarity: 'common',    weightRange: [0.01,  1.1],   activeWindows: [[6, 18]]          },
+  { name: 'Crappie',    rarity: 'common',    weightRange: [0.11,  1.5],   activeWindows: [[1, 20]]          },
+  { name: 'S. Bass',    rarity: 'common',    weightRange: [0.5,   2.5],   activeWindows: [[0, 24]]          },
+  { name: 'C. Pleco',   rarity: 'common',    weightRange: [0.1,   3.0],   activeWindows: [[18, 7]]          },
+  { name: 'Walleye',    rarity: 'uncommon',  weightRange: [1.4,   3.2],   activeWindows: [[0, 6], [19, 23]] },
+  { name: 'Catfish',    rarity: 'uncommon',  weightRange: [1.0,   5.0],   activeWindows: [[0, 24]]          },
+  { name: 'C. Catfish', rarity: 'uncommon',  weightRange: [1.0,   5.0],   activeWindows: [[0, 20]]          },
+  { name: 'Salmon',     rarity: 'uncommon',  weightRange: [2.0,   6.0],   activeWindows: [[5, 6], [18, 20]] },
+  { name: 'Carp',       rarity: 'uncommon',  weightRange: [2.0,  14.0],   activeWindows: [[19, 20], [1, 5]] },
+  { name: 'Panfish',    rarity: 'uncommon',  weightRange: [0.15, 0.22],   activeWindows: [[5, 6], [18, 20]] },
+  { name: 'B. Tilapia', rarity: 'uncommon',  weightRange: [2.3,   2.7],   activeWindows: [[0, 24]]          },
+  { name: 'Snook',      rarity: 'uncommon',  weightRange: [1.5,   6.5],   activeWindows: [[0, 6], [19, 24]] },
+  { name: 'Bullhead',   rarity: 'rare',      weightRange: [0.45,  4.5],   activeWindows: [[11, 19]]         },
+  { name: 'L. Bass',    rarity: 'rare',      weightRange: [0.5,  10.0],   activeWindows: [[3, 24]]          },
+  { name: 'Pike',       rarity: 'rare',      weightRange: [2.3,   4.5],   activeWindows: [[3, 6], [19, 23]] },
+  { name: 'Goldfish',   rarity: 'rare',      weightRange: [0.1,   0.5],   activeWindows: [[5, 19]]          },
+  { name: 'Eel',        rarity: 'rare',      weightRange: [0.1,   8.0],   activeWindows: [[19, 4]]          },
+  { name: "Flathead",   rarity: 'rare',      weightRange: [3.0,  20.0],   activeWindows: [[18, 7]]          },
+  { name: 'Muskie',     rarity: 'legendary', weightRange: [6.8,  16.0],   activeWindows: [[2, 5], [19, 24]] },
+  { name: 'Koi',        rarity: 'legendary', weightRange: [7.0,  14.0],   activeWindows: [[8, 22]]          },
+  { name: 'Shark',      rarity: 'legendary', weightRange: [8.0,  25.0],   activeWindows: [[3, 6], [19, 23]] }
 ];
 
 const baitConfigs = {
@@ -363,6 +369,7 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
 
 
 
