@@ -65,7 +65,6 @@ function updateGameTime() {
   saveTime();
 }
 updateTimeVisual(getCurrentHour());
-updateTimeVisual(hour);
 setInterval(updateGameTime, 10000); // 10s = 10 in-game minutes
 
 function updateTimeVisual(hour) {
@@ -478,5 +477,6 @@ const clouds = new CloudManager(
   3000
 );
 clouds.start();
+
 
 
