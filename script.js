@@ -1,5 +1,7 @@
 // By ikutan7 :D
 
+// Catches save logic
+
 let catchHistory = [];
 
 function loadCatchLog() {
@@ -17,6 +19,8 @@ loadCatchLog();
 
 let gameTime;
 
+// Time saving logic
+
 function loadTime() {
   const stime = localStorage.getItem('gameTime');
   if (stime) {
@@ -30,12 +34,7 @@ function saveTime() {
   localStorage.setItem('gameTime', JSON.stringify(gameTime));
 }
 
-function getCurrentHour() {
-  return Math.floor(gameTime / 60);
-}
-
 loadTime()
-updateTimeVisual(getCurrentHour());
 
 const avatar = document.getElementById('avatar');
 const staticAvatar = 'https://avatars.githubusercontent.com/u/201024699?v=4';
@@ -51,6 +50,10 @@ avatar.addEventListener('click', () => {
     avatar.src = staticAvatar;
   }, 2000); // GIF duration
 });
+
+function getCurrentHour() {
+  return Math.floor(gameTime / 60);
+}
 
 let isDay = true;
 
@@ -389,6 +392,7 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
 
 
 
