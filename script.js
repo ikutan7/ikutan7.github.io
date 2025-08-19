@@ -30,6 +30,13 @@ function saveTime() {
   localStorage.setItem('gameTime', JSON.stringify(gameTime));
 }
 
+function getCurrentHour() {
+  return Math.floor(gameTime / 60);
+}
+
+loadTime()
+updateTimeVisual(getCurrentHour());
+
 const avatar = document.getElementById('avatar');
 const staticAvatar = 'https://avatars.githubusercontent.com/u/201024699?v=4';
 const animatedAvatar = 'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/profileik.gif';
@@ -45,13 +52,8 @@ avatar.addEventListener('click', () => {
   }, 2000); // GIF duration
 });
 
-function getCurrentHour() {
-  return Math.floor(gameTime / 60);
-}
-
 let isDay = true;
 
-loadTime()
 function updateGameTime() {
   gameTime = (gameTime + 10) % 1440; // 1440 minutes in a day
   const hour = Math.floor(gameTime / 60);
@@ -387,6 +389,7 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
 
 
 
