@@ -10,59 +10,61 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <a href="https://github.com/ikutan7" target="_blank" style="text-decoration: none;">
-    <p
-        style="position: fixed; top: 0; left: 0; margin: 0; font-weight: bold; cursor: pointer; transition: color 0.3s, transform 0.2s;"
-        onmouseover="this.style.color='#0077ff'; this.style.transform='scale(1.05)'"
-        onmouseout="this.style.color=''; this.style.transform='scale(1)'"
-    >
-        - By ikutan7 -
+  <div id="uiWrapper">
+    <a href="https://github.com/ikutan7" target="_blank" style="text-decoration: none;">
+      <p
+          style="position: fixed; top: 0; left: 0; margin: 0; font-weight: bold; cursor: pointer; transition: color 0.3s, transform 0.2s;"
+          onmouseover="this.style.color='#0077ff'; this.style.transform='scale(1.05)'"
+          onmouseout="this.style.color=''; this.style.transform='scale(1)'"
+      >
+          - By ikutan7 -
+      </p>
+    </a>
+    <img id="avatar" src="https://avatars.githubusercontent.com/u/201024699?v=4" alt="Ik" style="position: fixed; top: 0; right: 0; width: 40px; height: 40px; border-radius: 50%; margin: 4px; cursor: pointer;">
+    <img src="https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/fishing2.png" alt="Fishing Icon" style="display: block; margin: 0 auto 12px; height: 80px;">
+    <div id="clockDisplay">06:00</div>
+    <h1>🎣 Welcome to the Fishing Game! 🐟</h1>
+    <p>Cast your line and try your luck!</p>
+
+    <button class="menu-bttn" onclick="castLine()">Cast Line</button>
+    <button class="menu-bttn" onclick="showSummary()">Show My Catches</button>
+
+    <div id="log"></div>
+    <div id="summary" style="display: none;"></div>
+
+    <p>
+      <label for="baitSelect">Bait:</label>
+      <select id="baitSelect" onchange="updateBait()">
+        <option value="Worm">Worm</option>
+        <option value="Shrimp">Shrimp</option>
+        <option value="Jig">Jig</option>
+      </select>
     </p>
-  </a>
-  <img id="avatar" src="https://avatars.githubusercontent.com/u/201024699?v=4" alt="Ik" style="position: fixed; top: 0; right: 0; width: 40px; height: 40px; border-radius: 50%; margin: 4px; cursor: pointer;">
-  <img src="https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/fishing2.png" alt="Fishing Icon" style="display: block; margin: 0 auto 12px; height: 80px;">
-  <div id="clockDisplay">06:00</div>
-  <h1>🎣 Welcome to the Fishing Game! 🐟</h1>
-  <p>Cast your line and try your luck!</p>
 
-  <button class="menu-bttn" onclick="castLine()">Cast Line</button>
-  <button class="menu-bttn" onclick="showSummary()">Show My Catches</button>
+    <div id="shakeArea"></div>
+    <div id="reelChallenge" style="display:none;"></div>
+    <div id="timerBar"><div id="timerFill"></div></div>
 
-  <div id="log"></div>
-  <div id="summary" style="display: none;"></div>
-
-  <p>
-    <label for="baitSelect">Bait:</label>
-    <select id="baitSelect" onchange="updateBait()">
-      <option value="Worm">Worm</option>
-      <option value="Shrimp">Shrimp</option>
-      <option value="Jig">Jig</option>
-    </select>
-  </p>
-
-  <div id="shakeArea"></div>
-  <div id="reelChallenge" style="display:none;"></div>
-  <div id="timerBar"><div id="timerFill"></div></div>
-
-  <div id="jfish-area">
-    <div id="fish1" class="fish" style="position: fixed;">🐟</div>
-    <div id="fish2" class="fish" style="position: fixed;">🦈</div>
-    <div id="fish3" class="fish" style="position: fixed;">🐠</div>
-  </div>
+    <div id="jfish-area">
+      <div id="fish1" class="fish" style="position: fixed;">🐟</div>
+      <div id="fish2" class="fish" style="position: fixed;">🦈</div>
+      <div id="fish3" class="fish" style="position: fixed;">🐠</div>
+    </div>
  
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
-<div id="waveContainer">
-  <svg viewBox="0 0 2400 100" preserveAspectRatio="none">
-    <path class="wave-back" d="M0,30 C300,80 900,-20 1200,30 C1500,80 2100,-20 2400,30 L2400,100 L0,100 Z" fill="#61ceff" />
-    <path class="wave-top"  d="M0,60 C300,40 900,80 1200,60 C1500,40 2100,80 2400,60 L2400,100 L0,100 Z" fill="#29a4f6" />
-  </svg>
-</div>
+    <div id="waveContainer">
+      <svg viewBox="0 0 2400 100" preserveAspectRatio="none">
+        <path class="wave-back" d="M0,30 C300,80 900,-20 1200,30 C1500,80 2100,-20 2400,30 L2400,100 L0,100 Z" fill="#61ceff" />
+        <path class="wave-top"  d="M0,60 C300,40 900,80 1200,60 C1500,40 2100,80 2400,60 L2400,100 L0,100 Z" fill="#29a4f6" />
+      </svg>
+    </div>
 
-<div id="cloudContainer"></div>
-
+    <div id="cloudContainer"></div>
+  </div>
 </body>
 </html>
+
 
 
 
