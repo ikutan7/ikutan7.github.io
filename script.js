@@ -464,10 +464,10 @@ class CloudManager {
 }
 
 const cloudSprites = [
-  '/assets/cloud1.png',
-  '/assets/cloud2.png',
-  '/assets/cloud3.png',
-  '/assets/cloud4.png'
+  'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/cloud1.png',
+  'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/cloud2.png',
+  'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/cloud3.png',
+  'https://raw.githubusercontent.com/ikutan7/fishinggame-asset/main/cloud4.png'
 ];
 
 const clouds = new CloudManager(
@@ -477,3 +477,4 @@ const clouds = new CloudManager(
   3000
 );
 clouds.start();
+
