@@ -1,3 +1,10 @@
+#uiWrapper {
+  transform-origin: top left;
+  padding-bottom: 40px;
+  width: 340px;
+  height: 460px;
+}
+
 body {
   user-select: none;
   font-family: sans-serif; 
@@ -190,3 +197,4 @@ body.night #summary {
   from { transform: translateX(0); }
   to   { transform: translateX(-120vw); }
 }
+
