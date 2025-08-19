@@ -394,12 +394,86 @@ function randomJumpLoop() {
 
 randomJumpLoop();
 
+const cloudTexts = [
+  'Hey!', 'Tight lines!', '🐟 incoming...', 
+  'Hook it!', 'Gone fishin’', 'Hello from above',
+  'Oh yeah', 'Catch it!', 'Uhh', ':3',
+  'cloud inbound', 'woah!!', 'fishfish',
+  'Seems fishy..', 'ikutan :)', 'Get them!'
+];
 
+const cloudContainer = document.getElementById('cloudContainer');
 
+class CloudManager {
+  constructor(container, texts, sprites, spawnRate = 5000) {
+    this.container   = container;
+    this.texts       = texts;
+    this.sprites     = sprites;
+    this.spawnRate   = spawnRate;
+    this.spawnHandle = null;
 
+    this.sprites.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }
 
+  spawnCloud() {
+    const cloud = document.createElement('div');
+    cloud.classList.add('cloud');
 
+    // Randomize image sprite
+    const sprite = this.sprites[
+      Math.floor(Math.random() * this.sprites.length)
+    ];
+    cloud.style.backgroundImage = `url('${sprite}')`;
 
+    // Random vertical position
+    const topPct = Math.random() * 40 + 5;
+    cloud.style.top = `${topPct}%`;
 
+    // Random speed
+    const duration = Math.random() * 20 + 20;
+    cloud.style.animationDuration = `${duration}s`;
 
+    // Day/night tint
+    cloud.classList.toggle('day-cloud', isDay);
+    cloud.classList.toggle('night-cloud', !isDay);
 
+    if (Math.random() < 0.1) {
+      const span = document.createElement('span');
+      span.className = 'cloud-text';
+      span.textContent = this.texts[
+        Math.floor(Math.random() * this.texts.length)
+      ];
+      cloud.appendChild(span);
+    }
+
+    cloud.addEventListener('animationend', () => cloud.remove());
+    this.container.appendChild(cloud);
+  }
+
+  start() {
+    this.spawnCloud();
+    this.spawnHandle = setInterval(() => this.spawnCloud(), this.spawnRate);
+  }
+
+  stop() {
+    clearInterval(this.spawnHandle);
+  }
+}
+
+const cloudSprites = [
+  '/assets/cloud1.png',
+  '/assets/cloud2.png',
+  '/assets/cloud3.png',
+  '/assets/cloud4.png'
+];
+
+const clouds = new CloudManager(
+  document.getElementById('cloudContainer'),
+  cloudTexts,
+  cloudSprites,
+  3000
+);
+clouds.start();
