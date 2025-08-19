@@ -1,4 +1,5 @@
-body { 
+body {
+  user-select: none;
   font-family: sans-serif; 
   text-align: center; 
   padding: 2em; 
@@ -13,6 +14,9 @@ body {
   background: #fff; 
   width: 80%; 
   max-width: 600px; 
+}
+#summary {
+  user-select: none;
 }
 
 button { 
@@ -139,4 +143,50 @@ body.night #summary {
 
 #clockDisplay {
   font-size: 1.2em;
+}
+
+#cloudContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -2;
+}
+
+.cloud {
+  position: absolute;
+  top: 0;                  /* will be reset in JS */
+  right: -400px;           /* start off-screen */
+  width: 600px;
+  height: 300px;
+  background: no-repeat center/contain;
+  animation-name: moveLeft;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.cloud.day-cloud {
+  filter: brightness(1);
+}
+.cloud.night-cloud {
+  filter: brightness(0.6);
+}
+
+.cloud-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1em;
+  font-style: bold;
+  color: #333;
+  white-space: nowrap;
+}
+
+@keyframes moveLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-120vw); }
 }
