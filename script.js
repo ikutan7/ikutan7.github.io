@@ -64,6 +64,7 @@ function updateGameTime() {
   updateTimeVisual(hour);
   saveTime();
 }
+updateGameTime()
 setInterval(updateGameTime, 10000); // 10s = 10 in-game minutes
 
 function updateTimeVisual(hour) {
@@ -392,6 +393,7 @@ function randomJumpLoop() {
 }
 
 randomJumpLoop();
+
 
 
 
